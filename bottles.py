@@ -6,32 +6,34 @@ class Bottles:
         return '\n'.join(self.verse(n) for n in range(upper, lower - 1, -1))
 
     def verse(self, number):
-        match number:
-            case 0:
-                return (
-                    'No more bottles of beer on the wall, '
-                    'no more bottles of beer.\n'
-                    'Go to the store and buy some more, '
-                    '99 bottles of beer on the wall.\n'
-                )
-            case 1:
-                return (
-                    '1 bottle of beer on the wall, '
-                    '1 bottle of beer.\n'
-                    'Take it down and pass it around, '
-                    'no more bottles of beer on the wall.\n'
-                )
-            case 2:
-                return (
-                    '2 bottles of beer on the wall, '
-                    '2 bottles of beer.\n'
-                    'Take one down and pass it around, '
-                    '1 bottle of beer on the wall.\n'
-                )
-            case _:
-                return (
-                    f'{number} bottles of beer on the wall, '
-                    f'{number} bottles of beer.\n'
-                    f'Take one down and pass it around, '
-                    f'{number-1} bottles of beer on the wall.\n'
-                )
+        return (
+            f'{self.quantity(number).capitalize()} {self.container(number)} of beer on the wall, '
+            f'{self.quantity(number)} {self.container(number)} of beer.\n'
+            f'{self.action(number)}, '
+            f'{self.quantity(self.successor(number))} {self.container(self.successor(number))} of beer on the wall.\n'
+        )
+
+    def quantity(self, number):
+        if number == 0:
+            return 'no more'
+        return str(number)
+
+    def container(self, number):
+        if number == 1:
+            return 'bottle'
+        return 'bottles'
+
+    def action(self, number):
+        if number == 0:
+            return 'Go to the store and buy some more'
+        return f'Take {self.pronoun(number)} down and pass it around'
+
+    def pronoun(self, number):
+        if number == 1:
+            return 'it'
+        return 'one'
+
+    def successor(self, number):
+        if number == 0:
+            return 99
+        return number - 1
